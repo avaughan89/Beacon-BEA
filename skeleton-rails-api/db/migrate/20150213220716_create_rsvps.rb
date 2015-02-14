@@ -1,8 +1,9 @@
 class CreateRsvps < ActiveRecord::Migration
   def change
     create_table :rsvps do |t|
-      t.integer :user_id, index: true
-      t.integer :event_id, index: true
+      t.integer :attendee_id
+      t.integer :event_id
+      t.string :status #options: accepted, pending, denied
 
       t.timestamps
     end

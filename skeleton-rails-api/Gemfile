@@ -39,3 +39,6 @@ gem 'omniauth-facebook'
 gem "figaro"
 gem 'rack-cors', :require => 'rack/cors'
 gem "responders"
+
+gem 'factory_girl_rails'
+gem 'faker'

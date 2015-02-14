@@ -31,14 +31,12 @@ ActiveRecord::Schema.define(version: 20150213220716) do
   end
 
   create_table "rsvps", force: :cascade do |t|
-    t.integer  "user_id"
+    t.integer  "attendee_id"
     t.integer  "event_id"
+    t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "rsvps", ["event_id"], name: "index_rsvps_on_event_id", using: :btree
-  add_index "rsvps", ["user_id"], name: "index_rsvps_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
