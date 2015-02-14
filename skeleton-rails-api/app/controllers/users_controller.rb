@@ -6,9 +6,23 @@ class UsersController < ApplicationController
     # new user registration with facebook auth
   end
 
-  def show
+  def show # sends user info, upcoming events, hosting events
+    # show user info
     @user = User.find(params[:id])
-    render :json => @user
+
+    # query for upcoming events as guest
+    @upcoming_rsvps = Rsvp.where(attendee_id: @user.id)
+    @upcoming_events = []
+    @upcoming_rsvps.each do |e|
+      @upcoming_events << Event.find(e.event_id)
+    end
+
+    # query for upcoming events as host
+    @hosting_events = Event.where(host_id: @user.id)
+
+    response = { user: @user, upcoming_events: @upcoming_events, hosting_events: @hosting_events }
+
+    render :json => response
   end
 
 private
