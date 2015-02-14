@@ -10,10 +10,11 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(events_params)
+    @error_messages = []
     # if public == false, set all :accepted values for that event to false
     if @event.save
       redirect_to events_path(@event)
-    else rors.full_messages
+    else @error_messages = @event.errors.full_messages
       render :json => @error_messages
     end
   end

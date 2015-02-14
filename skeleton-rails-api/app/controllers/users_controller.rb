@@ -2,29 +2,14 @@ class UsersController < ApplicationController
 
   after_filter :cors_set_access_control_headers
 
-  # def index
-
-  # end
-
   def create
     # new user registration with facebook auth
   end
 
   def show
     @user = User.find(params[:id])
+    render :json => @user
   end
-
-  # def edit
-  #   # edit profile
-  # end
-
-  # def update
-
-  # end
-
-  # def destroy
-
-  # end
 
 private
 
