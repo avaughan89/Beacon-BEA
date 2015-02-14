@@ -9,7 +9,7 @@ class RsvpController < AppController
       status == "accepted"
     end
 
-    rsvp = Rsvp.create(event_id: params[:event_id], attendee_id: current_user.id, status: status)
+    Rsvp.create(event_id: params[:event_id], attendee_id: current_user.id, status: status)
 
     render nothing: true, status: 200
   end

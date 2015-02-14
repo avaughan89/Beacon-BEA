@@ -2,26 +2,29 @@ class UsersController < ApplicationController
 
   after_filter :cors_set_access_control_headers
 
+  def index
+    users = User.all
+    render :json => users
+  end
+
   def create
     # new user registration with facebook auth
   end
 
   def show # sends user info, upcoming events, hosting events
-    # show user info
-    @user = User.find(params[:id])
+    user = User.find(params[:id])
 
     # query for upcoming events as guest
-    @upcoming_rsvps = Rsvp.where(attendee_id: @user.id)
-    @upcoming_events = []
-    @upcoming_rsvps.each do |e|
-      @upcoming_events << Event.find(e.event_id)
+    upcoming_rsvps = Rsvp.where(attendee_id: user.id)
+    upcoming_events = []
+    upcoming_rsvps.each do |e|
+      upcoming_events << Event.find(e.event_id)
     end
 
     # query for upcoming events as host
-    @hosting_events = Event.where(host_id: @user.id)
+    hosting_events = Event.where(host_id: user.id)
 
-    response = { user: @user, upcoming_events: @upcoming_events, hosting_events: @hosting_events }
-
+    response = { user: user, upcoming_events: upcoming_events, hosting_events: hosting_events }
     render :json => response
   end
 

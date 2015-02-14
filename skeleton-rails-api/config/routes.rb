@@ -7,6 +7,13 @@ Rails.application.routes.draw do
   #   end
   # end
 
-  resources :users, :events, :rsvps
-
+  resources :users
+  resources :events do
+    member do
+      get 'pending'
+      post 'flag'
+    end
+    resources :rsvps
+  end
 end
+

@@ -3,45 +3,45 @@ class EventsController < ApplicationController
   after_filter :cors_set_access_control_headers
 
   def index
-    @events = Event.all
-    render :json => @events
+    events = Event.all
+    render :json => events
   end
 
   def create
-    @event = Event.new(events_params)
-    @error_messages = []
-    if @event.save
-      redirect_to events_path(@event)
-    else @error_messages = @event.errors.full_messages
-      render :json => @error_messages
+    event = Event.new(events_params)
+    error_messages = []
+    if event.save
+      redirect_to events_path(event)
+    else error_messages = event.errors.full_messages
+      render :json => error_messages
     end
   end
 
   def show
-    @event = Event.find(params[:id])
-    @guests = @event.users
-    response = { :event => @event, :guests => @guests }
+    event = Event.find(params[:id])
+    rsvps = Rsvp.where(event_id: event.id)
+    guests = []
+    rsvps.each do |r|
+      guests << User.find(r.attendee_id)
+    end
+    response = { :event => event, :guests => guests }
     render :json => response
     # respond_to do |format|
     #   format.json { render :json => response }
     # end
   end
 
-  def update
-
-  end
-
   def destroy
-    @event = Event.find(params[:id])
-    @event.destroy
+    event = Event.find(params[:id])
+    event.destroy
     redirect_to events_path
   end
 
   def pending
     # show all RSVPs where current event's associated RSVPs have pending statuses
-    @event = Event.find(params[:id])
-    @pending_rsvps = Rsvp.where(event_id: @event.id, status: "pending")
-    render :json => @pending_rsvps
+    event = Event.find(params[:id])
+    pending_rsvps = Rsvp.where(event_id: event.id, status: "pending")
+    render :json => pending_rsvps
   end
 
   def flag
