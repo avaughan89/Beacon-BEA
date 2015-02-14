@@ -3,7 +3,6 @@ class EventsController < ApplicationController
   after_filter :cors_set_access_control_headers
 
   def index
-    #  will display differently depending on view
     @events = Event.all
     render :json => @events
   end
@@ -11,7 +10,6 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(events_params)
     @error_messages = []
-    # if public == false, set all :accepted values for that event to false
     if @event.save
       redirect_to events_path(@event)
     else @error_messages = @event.errors.full_messages
@@ -30,16 +28,27 @@ class EventsController < ApplicationController
   end
 
   def update
-    event = Event.find(params[:id])
-    flag_count = event.flag_count + 1
-    event.update(flag_count: flag_count)
-    render :json => flag_count
+
   end
 
   def destroy
     @event = Event.find(params[:id])
     @event.destroy
     redirect_to events_path
+  end
+
+  def pending
+    # show all RSVPs where current event's associated RSVPs have pending statuses
+    @event = Event.find(params[:id])
+    @pending_rsvps = Rsvp.where(event_id: @event.id, status: "pending")
+    render :json => @pending_rsvps
+  end
+
+  def flag
+    event = Event.find(params[:id])
+    flag_count = event.flag_count + 1
+    event.update(flag_count: flag_count)
+    render :json => flag_count
   end
 
 private
