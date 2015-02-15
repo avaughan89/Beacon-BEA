@@ -1,15 +1,10 @@
 class UsersController < ApplicationController
 
-  include HTTParty
-  # base_uri 'graph.facebook.com'
-
   after_filter :cors_set_access_control_headers
 
   def index
-    # users = User.all
-    response = HTTParty.get('https://graph.facebook.com/profile', { :client_token => ENV['FACEBOOK_CLIENT_TOKEN'], :client_secret => ENV['FACEBOOK_APP_SECRET'] } ).response
-    render :json => response
-    # render :json => users
+    users = User.all
+    return render :json => users
   end
 
   def create
@@ -30,7 +25,7 @@ class UsersController < ApplicationController
     hosting_events = Event.where(host_id: user.id)
 
     response = { user: user, upcoming_events: upcoming_events, hosting_events: hosting_events }
-    render :json => response
+    return render :json => response
   end
 
 private
