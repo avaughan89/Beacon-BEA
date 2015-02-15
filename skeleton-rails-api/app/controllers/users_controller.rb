@@ -1,10 +1,15 @@
 class UsersController < ApplicationController
 
+  include HTTParty
+  # base_uri 'graph.facebook.com'
+
   after_filter :cors_set_access_control_headers
 
   def index
-    users = User.all
-    render :json => users
+    # users = User.all
+    response = HTTParty.get('https://graph.facebook.com/profile', { :client_token => ENV['FACEBOOK_CLIENT_TOKEN'], :client_secret => ENV['FACEBOOK_APP_SECRET'] } ).response
+    render :json => response
+    # render :json => users
   end
 
   def create

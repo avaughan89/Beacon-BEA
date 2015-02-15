@@ -71,6 +71,9 @@ GEM
       activesupport (>= 4.1.0)
     hashie (3.4.0)
     hike (1.2.3)
+    httparty (0.13.3)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     json (1.8.2)
     jwt (1.2.1)
@@ -171,6 +174,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   figaro
+  httparty
   omniauth
   omniauth-facebook
   omniauth-google-oauth2

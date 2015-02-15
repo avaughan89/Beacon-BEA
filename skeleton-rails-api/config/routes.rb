@@ -1,11 +1,5 @@
 Rails.application.routes.draw do
-
-  # resources :users
-
-  # resources :events do
-  #   resources :rsvps do
-  #   end
-  # end
+  mount_devise_token_auth_for 'User', at: 'auth'
 
   resources :users
   resources :events do
@@ -15,5 +9,7 @@ Rails.application.routes.draw do
     end
     resources :rsvps
   end
+
+  # get '/auth/facebook/callback', to: 'users#create'
 end
 
