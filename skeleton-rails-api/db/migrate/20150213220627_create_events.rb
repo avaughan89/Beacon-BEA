@@ -4,12 +4,10 @@ class CreateEvents < ActiveRecord::Migration
       t.string :title
       t.text :description
       t.string :location
-      t.datetime :date_time
-      t.integer :host_id
-      t.integer :flag_count, :default => 0
+      t.datetime :date_start
+      t.datetime :date_end
+      t.integer :people_count
       t.string :category
-      t.boolean :adult, :default => false
-      t.boolean :public, :default => true
 
       t.timestamps
     end

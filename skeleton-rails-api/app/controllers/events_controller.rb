@@ -11,7 +11,7 @@ class EventsController < ApplicationController
     event = Event.new(events_params)
     error_messages = []
     if event.save
-      redirect_to events_path(event)
+      render :json => event
     else error_messages = event.errors.full_messages
       render :json => error_messages
     end
@@ -19,42 +19,41 @@ class EventsController < ApplicationController
 
   def show
     event = Event.find(params[:id])
-    rsvps = Rsvp.where(event_id: event.id)
-    guests = []
-    rsvps.each do |r|
-      guests << User.find(r.attendee_id)
-    end
-    response = { :event => event, :guests => guests }
-    render :json => response
+    # guests = []
+    # rsvps.each do |r|
+    #   guests << User.find(r.attendee_id)
+    # end
+    # response = { :event => event, :guests => guests }
+    render :json => event
     # respond_to do |format|
     #   format.json { render :json => response }
     # end
   end
 
-  def destroy
-    event = Event.find(params[:id])
-    event.destroy
-    redirect_to events_path
-  end
+  # def destroy
+  #   event = Event.find(params[:id])
+  #   event.destroy
+  #   redirect_to events_path
+  # end
 
-  def pending
-    # show all RSVPs where current event's associated RSVPs have pending statuses
-    event = Event.find(params[:id])
-    pending_rsvps = Rsvp.where(event_id: event.id, status: "pending")
-    render :json => pending_rsvps
-  end
+  # def pending
+  #   # show all RSVPs where current event's associated RSVPs have pending statuses
+  #   event = Event.find(params[:id])
+  #   pending_rsvps = Rsvp.where(event_id: event.id, status: "pending")
+  #   render :json => pending_rsvps
+  # end
 
-  def flag
-    event = Event.find(params[:id])
-    flag_count = event.flag_count + 1
-    event.update(flag_count: flag_count)
-    render :json => flag_count
-  end
+  # def flag
+  #   event = Event.find(params[:id])
+  #   flag_count = event.flag_count + 1
+  #   event.update(flag_count: flag_count)
+  #   render :json => flag_count
+  # end
 
 private
 
   def events_params
-    params.require(:event).permit(:title, :description, :location, :date_time, :category, :adult, :public)
+    params.require(:event).permit(:title, :description, :location, :date_start,:date_end, :category, :people_count)
   end
 
   def cors_set_access_control_headers
