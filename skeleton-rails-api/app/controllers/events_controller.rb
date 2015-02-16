@@ -8,6 +8,8 @@ class EventsController < ApplicationController
   end
 
   def create
+    p events_params
+    p params
     event = Event.new(events_params)
     error_messages = []
     if event.save
@@ -53,7 +55,7 @@ class EventsController < ApplicationController
 private
 
   def events_params
-    params.require(:event).permit(:title, :description, :location, :date_start,:date_end, :category, :people_count)
+    params.permit(:title, :description, :location, :date_start,:date_end, :category, :people_count)
   end
 
   def cors_set_access_control_headers
