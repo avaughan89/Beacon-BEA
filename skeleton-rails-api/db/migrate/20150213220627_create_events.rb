@@ -6,7 +6,7 @@ class CreateEvents < ActiveRecord::Migration
       t.string :location
       t.datetime :date_start
       t.datetime :date_end
-      t.integer :people_count
+      t.integer :people_count, :default => 1
       t.string :category
 
       t.timestamps
