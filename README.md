@@ -1,45 +1,41 @@
-Events routing
+# Using the [Beacon API](https://beacon-bea.herokuapp.com/events)
 
-GET '/events'
-* Will return all events
+Our API contains information regarding upcoming events. Each event will be displayed on the map with a popup window containing event details, and a beacon that will grow with the number of guests.
 
-POST '/events'
-* Will create a new event and redirect to the new event's view
-* If save is unsuccessful, will send full error messages
-* Form fields: title (string), description (text), location (string), date_time (datetime), category (string), adult (aka. 21+, boolean, default false), public (boolean, default true)
-* Required paramaters: title, location, date_time, category
+---
 
-GET '/events/:event_id'
+### Viewing events
+
+```ruby
+get '/events'
+```
+
+---
+
+### Creating events
+
+```ruby
+post '/events'
+```
+
+Parameters for creating a new event:
+
+| Field name | Data type | Required/optional | Description |
+------------------------------------------------------------
+| title | string | Required |  |
+| description | text | Optional |  |
+| location | string | Required | Should be a valid street address; Google Maps will only recognize and place beacons for formatted addresses, not landmarks |
+| date_start | datetime | Required |  |
+| date_end | datetime | Optional | Beacons will not show for past events |
+| people_count | integer | Optional | Will increment and increase beacon radius for each user that clicks attending. Defaults to 1. |
+| category | string | Required | Select from the drop-down menu--options include Sports, Entertainment, Social, Misc, Video Games, Food, and Outdoors |
+
+---
+
+```ruby
+get '/events/:event_id'
+```
+
 * Show event information
-* Show all event guests
-* Variable names: event (object) and guests (array of objects)
 
-DELETE '/events/:event_id'
-* Will destroy event and redirect to index
 
-GET '/events/:event_id/pending'
-* Will show all RSVPs with a pending status for that event (array of objects)
-* Can manipulate to show user
-
-POST '/events/:event_id/flag'
-* Will flag an event as inappropriate (add to flag counter)
-
-Users routing
-
-GET '/users'
-* Will return all users
-
-POST '/users'
-* Will create a new user (method incomplete; will figure out how to grab Facebook API data)
-
-GET '/users/:user_id'
-* Will show user info, upcoming events, and hosting events
-* Variable names: user, upcoming_events (array of event objects), hosting_events (array of event objects)
-
-Rsvp routing
-
-POST '/rsvp'
-* Will create a new Rsvp record using current event ID and current user ID; status will depend on whether the event is public or private (if public is true, status will be "accepted", else "pending")
-
-PATCH '/rsvp/:rsvp_id'
-* Will edit an Rsvp status to either "accepted" or "rejected"
