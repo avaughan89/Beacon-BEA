@@ -10,6 +10,8 @@ Our API contains information regarding upcoming events. Each event will be displ
 get '/events'
 ```
 
+Events are displayed as beacons on the home tab's map.
+
 ---
 
 ### Creating events
@@ -18,7 +20,7 @@ get '/events'
 post '/events'
 ```
 
-Parameters for creating a new event:
+#### Parameters for creating a new event:
 
 | Field name | Data type | Required/optional | Description |
 |---|---|---|---|
@@ -32,10 +34,27 @@ Parameters for creating a new event:
 
 ---
 
+### Viewing an event
+
 ```ruby
 get '/events/:event_id'
 ```
 
-* Show event information
+Individual events can be accessed through its beacon's popup window.
 
+Sample response:
 
+```javascript
+{
+  id: 1,
+  title: "Aaron's birthday party",
+  description: "Aaron is turning 20. Bring your own apple juice.",
+  location: "1272 El Camino Real, San Bruno",
+  date_start: "2015-02-14T20:00:00.000Z",
+  date_end: "2015-02-15T01:00:00.000Z",
+  people_count: 30,
+  category: "Social",
+  created_at: "2015-02-18T00:37:22.402Z",
+  updated_at: "2015-02-18T00:37:22.402Z"
+}
+```
