@@ -17,7 +17,3 @@ gem 'awesome_print', :require => 'ap'
 gem "figaro"
 gem 'rack-cors', :require => 'rack/cors'
 gem "responders"
-
-gem 'faker'
-gem 'factory_girl'
-
