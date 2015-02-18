@@ -21,7 +21,7 @@ post '/events'
 Parameters for creating a new event:
 
 | Field name | Data type | Required/optional | Description |
-------------------------------------------------------------
+|---|---|---|---|
 | title | string | Required |  |
 | description | text | Optional |  |
 | location | string | Required | Should be a valid street address; Google Maps will only recognize and place beacons for formatted addresses, not landmarks |
