@@ -8,8 +8,6 @@ class EventsController < ApplicationController
   end
 
   def create
-    p events_params
-    p params
     event = Event.new(events_params)
     error_messages = []
     if event.save
@@ -21,43 +19,16 @@ class EventsController < ApplicationController
 
   def show
     event = Event.find(params[:id])
-    # guests = []
-    # rsvps.each do |r|
-    #   guests << User.find(r.attendee_id)
-    # end
-    # response = { :event => event, :guests => guests }
     render :json => event
-    # respond_to do |format|
-    #   format.json { render :json => response }
-    # end
   end
 
   def update
-  event = Event.find(params[:id])
-  event.increment!(:people_count)
-  render :json => event
+    event = Event.find(params[:id])
+    event.increment!(:people_count)
+    render :json => event
   end
-  # def destroy
-  #   event = Event.find(params[:id])
-  #   event.destroy
-  #   redirect_to events_path
-  # end
 
-  # def pending
-  #   # show all RSVPs where current event's associated RSVPs have pending statuses
-  #   event = Event.find(params[:id])
-  #   pending_rsvps = Rsvp.where(event_id: event.id, status: "pending")
-  #   render :json => pending_rsvps
-  # end
-
-  # def flag
-  #   event = Event.find(params[:id])
-  #   flag_count = event.flag_count + 1
-  #   event.update(flag_count: flag_count)
-  #   render :json => flag_count
-  # end
-
-private
+  private
 
   def events_params
     params.permit(:title, :description, :location, :date_start,:date_end, :category, :people_count)
